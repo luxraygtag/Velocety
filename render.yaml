@@ -3,5 +3,5 @@ services:
     name: velocity
     env: node
     plan: free
-    buildCommand: npm install
+    buildCommand: npm run build
     startCommand: npm start
