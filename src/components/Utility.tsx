@@ -1,7 +1,7 @@
 import createMenu from "./AppMenu";
 import { JSX, createEffect, createSignal } from "solid-js";
-import Tab from "~/API/Tab";
-import Velocity from "~/API/index";
+import Tab from "~/api/Tab";
+import Velocity from "~/api/index";
 import { bookmarks, bookmarksShown, setBookmarksShown } from "~/data/appState";
 import HistoryEntry from "~/types/HistoryEntry";
 import { engines, preferences } from "~/util/";
@@ -142,7 +142,7 @@ export default function Utility(): JSX.Element {
                       <div class="mb-0.5 mr-2 flex h-4 w-4 flex-row items-center">
                         <img src={bookmark.icon} />
                       </div>
-                      <div>{bookmark.name}</div>
+                      <div>{bookmark.title}</div>
                     </>,
                     null,
                     () => new window.parent.Velocity.Tab(bookmark.url, true)

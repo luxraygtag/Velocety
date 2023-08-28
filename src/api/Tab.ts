@@ -1,8 +1,8 @@
-import Bookmark from "./Bookmark";
 import EventEmitter from "events";
 import { createSignal } from "solid-js";
 import type { Accessor, Setter } from "solid-js";
 import { setTabStack, setTabs, tabStack, tabs } from "~/data/appState";
+import { create } from "~/manager/bookmarkManager";
 import * as contentScriptManager from "~/manager/contentScriptManager";
 import * as tabManager from "~/manager/tabManager";
 import { getActiveTab } from "~/util";
@@ -76,6 +76,8 @@ export default class Tab extends EventEmitter {
   }
 
   navigate(query: string) {
+    this.emit("navigate", query);
+
     this.iframe.title = query;
     let url = urlUtil.generateProxyUrl(query);
 
@@ -89,6 +91,8 @@ export default class Tab extends EventEmitter {
   }
 
   close(event?: MouseEvent): void {
+    this.emit("closed");
+
     if (event) {
       event.stopPropagation();
     }
@@ -103,10 +107,11 @@ export default class Tab extends EventEmitter {
   }
 
   bookmark() {
-    new Bookmark({
-      name: this.#title[0](),
-      url: this.#url[0](),
-      icon: this.#icon[0]()
+    create({
+      type: "bookmark",
+      title: this.title(),
+      url: this.url(),
+      icon: this.icon()
     });
   }
 
